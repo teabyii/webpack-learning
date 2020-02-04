@@ -1,0 +1,16 @@
+.container {
+  margin: 0 auto;
+}
+
+.box {
+  font-size: 2rem;
+  color: blue;
+  text-align: center;
+}
+
+.tuts {
+  margin: 0 auto;
+  width: 400px;
+  height: 277px;
+  background: url(./webpack-tuts.jpg);
+}
