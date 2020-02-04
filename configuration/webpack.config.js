@@ -19,7 +19,7 @@ module.exports = {
       {
         test: /\.jsx?/, // 匹配文件路径的正则表达式，通常我们都是匹配文件类型后缀
         include: [
-          path.resolve(__dirname, 'src') // 指定哪些路径下的文件需要经过 loader 处理
+          path.resolve(__dirname, 'src'), // 指定哪些路径下的文件需要经过 loader 处理
         ],
         use: {
           loader: 'babel-loader', // 指定使用的 loader
@@ -32,8 +32,16 @@ module.exports = {
         test: /\.css/i,
         use: [
           MiniCssExtractPlugin.loader,
-          'css-loader'
-        ]
+          'css-loader',
+        ],
+      },
+      {
+        test: /\.less$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'less-loader',
+        ],
       },
       {
         test: /\.(png|jpg|gif)$/i,
@@ -42,7 +50,7 @@ module.exports = {
             loader: 'url-loader',
             options: {
               limit: 8192,
-              fallback: 'file-loader'
+              fallback: 'file-loader',
             },
           },
         ],
