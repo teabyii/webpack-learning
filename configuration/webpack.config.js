@@ -43,6 +43,15 @@ module.exports = {
           'less-loader',
         ],
       },
+      // {
+      //   test: /\.(png|jpg|gif)$/i,
+      //   use: [
+      //     {
+      //       loader: 'file-loader',
+      //       options: {},
+      //     },
+      //   ],
+      // },
       {
         test: /\.(png|jpg|gif)$/i,
         use: [
@@ -59,8 +68,12 @@ module.exports = {
   },
 
   plugins: [
-    new MiniCssExtractPlugin(), // 将 css 文件单独抽离的 plugin
-    new HtmlWebpackPlugin(), // 生成 html 的 plugin
+    new MiniCssExtractPlugin({
+      filename: '[name].css' // 这里也可以使用 [hash]
+    }), // 将 css 文件单独抽离的 plugin
+    new HtmlWebpackPlugin({
+      template: 'src/index.html'
+    }), // 生成 html 的 plugin
   ],
 
   devtool: 'eval-cheap-source-map', // 开发时使用，便于 debug 时查看源码和断点
