@@ -1,17 +1,42 @@
 const path = require('path');
+const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  // mode: 'production',
   mode: 'development',
 
   entry: {
-    main: './src/index.js', // 指定构建入口文件
+    index: './src/index.js',
+    page: './src/page.js'
   },
 
   output: {
     path: path.resolve(__dirname, 'dist'), // 指定构建生成文件所在路径
-    filename: 'bundle.js', // 指定构建生成的文件名
+    filename: '[name].bundle.js', // 指定构建生成的文件名
+    chunkFilename: '[name].[hash:8].js' // 指定分离出来的代码文件的名称
+  },
+
+  optimization: {
+    // minimize: true,
+    // minimizer: [new TerserPlugin()],
+    usedExports: true,
+    sideEffects: true,
+    concatenateModules: true,
+    splitChunks: {
+      // chunks: "all", // 所有的 chunks 代码公共的部分分离出来成为一个单独的文件
+      // name: 'common',
+
+      cacheGroups: {
+        vendor: {
+          chunks: "initial",
+          test: path.resolve(__dirname, "node_modules"), // 路径在 node_modules 目录下的都作为公共部分
+          name: "vendor", // 使用 vendor 入口作为公共部分
+          enforce: true,
+        },
+      },
+   },
   },
 
   module: {
@@ -94,6 +119,8 @@ module.exports = {
       filename: '[name].css' // 这里也可以使用 [hash]
     }), // 将 css 文件单独抽离的 plugin
     new HtmlWebpackPlugin({
+      filename: 'index.html',
+      chunks: ['vendor', 'index'],
       template: 'src/index.html',
       minify: {
         minifyCSS: true,
@@ -102,9 +129,13 @@ module.exports = {
         collapseWhitespace: true
       },
     }), // 生成 html 的 plugin
+    new HtmlWebpackPlugin({
+      filename: 'page.html',
+      chunks: ['vendor', 'page']
+    }),
   ],
 
-  devtool: 'eval-cheap-source-map', // 开发时使用，便于 debug 时查看源码和断点
+  devtool: false, // 方便查看源码
 
   devServer: {
     contentBase: path.resolve(__dirname, 'dist') // 开发服务器启动路径
