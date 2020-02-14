@@ -1,5 +1,5 @@
 {
-  "name": "@webpack-learning/start",
+  "name": "@webpack-learning/entry-and-module",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
