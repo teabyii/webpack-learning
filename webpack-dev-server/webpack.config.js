@@ -21,7 +21,7 @@ module.exports = {
 
     proxy: {
       '/api': {
-        target: "http://localhost:8080", // 将 URL 中带有 /api 的请求代理到本地的 3000 端口的服务上
+        target: "http://localhost:8080", // 将 URL 中带有 /api 的请求代理到本地的 8080 端口的服务上
         pathRewrite: { '^/api': '' }, // 把 URL 中 path 部分的 `api` 移除掉
       },
     }
